@@ -1,59 +1,58 @@
-// do not change these lines
-let adults = 0
-let children = 0
-const totalEntered = { adults: 0, children: 0 }
+class Softplay {
+  constructor() {
+    this.adults = 0
+    this.children = 0
+    this.totals = {
+      adults: 0,
+      children: 0
+    }
+  }
 
-// TODO: Write your functions in the below section. Your functions should update
-// the adults and children variables defined above.
-// Start with the occupancy function.
+  occupancy() {
+    return {
+      adults: this.adults,
+      children: this.children
+    }
+  }
 
-function checkOccupancy() {
-  const occupancyList = {}
-  occupancyList.adults = adults
-  occupancyList.children = children
-  return occupancyList
-}
+  total() {
+    return {
+      adults: this.totals.adults,
+      children: this.totals.children
+    }
+  }
 
-function enter(numAdults, numChildren) {
-  if (numAdults < numChildren) {
-    console.log('Not every child is accompanied by an adult.')
-    return false
-  } else if (numAdults >= numChildren) {
-    adults += numAdults
-    children += numChildren
-    totalAdd(numAdults, numChildren)
-    return true
+  enter(numAdults, numChildren) {
+    if (numAdults < numChildren) {
+      return false
+    } else {
+      this.adults += numAdults
+      this.children += numChildren
+      this.addToTotal(numAdults, numChildren)
+      return true
+    }
+  }
+
+  leave(numAdults, numChildren) {
+    if (numAdults > this.adults || numChildren > this.children) {
+      return false
+    } else if (numAdults < numChildren) {
+      return false
+    } else if (this.adults - numAdults < this.children - numChildren) {
+      return false
+    } else {
+      this.adults -= numAdults
+      this.children -= numChildren
+      return true
+    }
+  }
+
+  addToTotal(numAdults, numChildren) {
+    this.totals.adults += numAdults
+    this.totals.children += numChildren
   }
 }
 
-function leave(numAdults, numChildren) {
-  if (adults - numAdults < 0 || children - numChildren < 0) {
-    console.log('More are leaving than there should be inside!!!')
-    return false
-  } else if (numAdults < numChildren) {
-    console.log('Children leaving need to be accompanied by atleast 1 adult.')
-    return false
-  } else if (adults - numAdults < children - numChildren) {
-    console.log('Number of children would be greater than number of adults')
-    return false
-  } else {
-    adults -= numAdults
-    children -= numChildren
-    return true
-  }
-}
+const softplay = new Softplay()
 
-function totalAdd(numAdults, numChildren) {
-  totalEntered.adults += numAdults
-  totalEntered.children += numChildren
-}
-
-const total = () => totalEntered
-
-// TODO: Change the undefined values below to the name of your functions
-module.exports = {
-  enter: enter,
-  leave: leave,
-  occupancy: checkOccupancy,
-  total: total
-}
+module.exports = softplay
