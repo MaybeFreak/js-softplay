@@ -16,10 +16,7 @@ class Softplay {
   }
 
   total() {
-    return {
-      adults: this.totals.adults,
-      children: this.totals.children
-    }
+    return this.totals
   }
 
   enter(numAdults, numChildren) {
